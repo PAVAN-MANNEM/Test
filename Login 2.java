@@ -8,7 +8,7 @@ import javax.swing.*;
 
 
 
-public class AdminLogin extends JFrame implements ActionListener
+public class Login extends JFrame implements ActionListener
 {
 	Container c;
 	Font f1=new Font("times new roman",Font.BOLD,16);
@@ -20,9 +20,9 @@ public class AdminLogin extends JFrame implements ActionListener
         JPasswordField t2;
         String uname,pwd[ ] = new String[100];
         boolean flag = false;
-	AdminLogin()
+	Login()
 	{
-            setTitle("Admin Login::Secure Data Retrieval for Decentralized DisruptionTolerant Military Networks");
+            setTitle("Registration::Secure Data Retrieval for Decentralized DisruptionTolerant Military Networks");
 		c=getContentPane();
 		c.setLayout(null);
 		c.setBackground(new Color(170,186,204));
@@ -54,15 +54,14 @@ public class AdminLogin extends JFrame implements ActionListener
         jb2.addActionListener(this);
 		c.add(jb2);
 
-     /*   jb4=new JButton("Close");
+        jb4=new JButton("Close");
         jb4.setFont(f1);
 		jb4.setBounds(250,332,120,25);
         jb4.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		jb4.addActionListener(this);
 		c.add(jb4);
-		 */
-        /*
-		j3=new JLabel("NewAdmin :");
+		
+		j3=new JLabel("NewUser :");
 		j3.setFont(f1);
 		j3.setBounds(10,320,80,50);
 		c.add(j3);
@@ -73,7 +72,7 @@ public class AdminLogin extends JFrame implements ActionListener
         jb3.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		jb3.addActionListener(this);
 		c.add(jb3);
- */
+
 		j1=new JLabel("Name :");
 		j1.setFont(f1);
 		j1.setBounds(20,100,100,50);
@@ -87,19 +86,21 @@ public class AdminLogin extends JFrame implements ActionListener
 		cb1.setSelectedItem("--- Select ---");
 		try
 		{
-            
-            /*
 			Socket skt=new Socket("localhost",300);
 			DataInputStream dis = new DataInputStream(skt.getInputStream( ));
-		
-			flag = true; */
-            int idx = 1;
-			uname = "Admin01";
-			pwd[idx] = "admin01";
-			
+			int idx = 1;
+			while(true)
+			{
+			uname = dis.readLine( );
+			pwd[idx] = dis.readLine( );
+			if(uname.equals("end"))
+			{
+			break;
+			}
 			cb1.addItem(uname);			
-			
-			
+			idx++;			
+			}
+			flag = true;
 			
 			}
 			catch(Exception es)
@@ -117,9 +118,9 @@ public class AdminLogin extends JFrame implements ActionListener
 		t2.setBounds(120,160,150,30);
 		c.add(t2);
                 
-        setSize(400,450);
+        setSize(400,500);
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
         public void actionPerformed(ActionEvent ae) 
 {
@@ -136,12 +137,11 @@ public class AdminLogin extends JFrame implements ActionListener
 			else
 			{
 			String pwd1 = t2.getText( );
-			String pwd2 = pwd[1];
+			String pwd2 = pwd[cb1.getSelectedIndex( )];
 			if(pwd1.equals(pwd2))
 			{
 			   JOptionPane.showMessageDialog(null,"Login Succesfull");
-			   new AdminMainFrame( );
-               this.dispose( );
+			   new MainFrame( );
 			}
 			else
 			{
@@ -156,7 +156,7 @@ public class AdminLogin extends JFrame implements ActionListener
 				e1.printStackTrace();
                         }
              }
-        if(ae.getSource()==jb2)
+                if(ae.getSource()==jb2)
 		{
 			cb1.setSelectedItem("  --- Select ---");
 			t2.setText("");
@@ -165,14 +165,14 @@ public class AdminLogin extends JFrame implements ActionListener
 		{
 			new Register();
 		}
-        //if(ae.getSource()==jb4)
-		//{
-			//this.dispose( );
-		//}
+        if(ae.getSource()==jb4)
+		{
+			this.dispose( );
+		}
 	}
         public static void main(String[] args)
 	{
-		new AdminLogin();
+		new Login();
 		try
 		{
 	UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
